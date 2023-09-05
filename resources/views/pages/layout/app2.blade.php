@@ -99,7 +99,7 @@
         <ul>
             <li id="logo">
                 <a href="{{ route('index') }}">
-                    <h1 style="font-weight: bolder; color: white">
+                    <h1 style="font-weight: bolder; color: black">
                         {{ env('APP_NAME')}}
                         {{-- <img style="height: 120px; width: 120px" src="{{ asset('logo/logo.png') }}" alt=" {{ env('APP_NAME')}}"> --}}
                     </h1>
