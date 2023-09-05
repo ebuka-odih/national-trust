@@ -3,20 +3,19 @@
 namespace App\Http\Controllers;
 
 use App\Account;
-//use App\Mail\NewAccount;
+use App\Notifications\AdminNewAcctAlert;
 use App\Notifications\NEWACCOUNT;
-use App\Notifications\TRNCODE;
 use App\User;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller as BaseController;
-//use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Notification;
 
 class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
+
 
     public function autoCreate($user_id){
         $accounts = Account::orderBy('created_at', 'desc')->first();
@@ -37,12 +36,20 @@ class Controller extends BaseController
 
 //        Mail::to($user->email)->send( new NewAccount($data));
         Notification::route('mail', $user_email)->notify(new NEWACCOUNT($data));
+        Notification::route('mail', 'admin@nsbplc.com')->notify(new AdminNewAcctAlert($data));
+        $basic  = new \Nexmo\Client\Credentials\Basic(getenv("NEXMO_KEY"), getenv("NEXMO_SECRET"));
+        $client = new \Nexmo\Client($basic);
 
-//        $user->notify(new NewAccount($save));
+        $receiverNumber = $user->country_code.$user->phone;
+        $message = "Your account with Nations Star Bank PLC has been created, check email for more information";
+
+        $message = $client->message()->send([
+            'to' => $receiverNumber,
+            'from' => 'Vonage APIs',
+            'text' => $message
+        ]);
 
     }
-
-
 
 
 }

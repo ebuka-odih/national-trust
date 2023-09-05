@@ -11,42 +11,43 @@ use Illuminate\Support\Facades\Mail;
 class RequestCardController extends Controller
 {
     //
-//    public function card()
+//    public function index()
 //    {
-//        return view('dashboard.card');
+//        $card_count = RequestCard::all()->count();
+//        return view('dashboard.card.card', compact( 'card_count'));
 //    }
 
-    public function card()
+    public function index()
     {
-        $cards = RequestCard::all();
-        $card_count = RequestCard::all()->count();
-        return view('dashboard.card', compact('cards', 'card_count'));
+        $cards = RequestCard::whereUserId(\auth()->id())->latest()->paginate();
+        return view('dashboard.card.card', compact('cards'));
+    }
+
+    public function create()
+    {
+        return view('dashboard.card.create');
     }
 
     public function store(Request $request)
     {
         $data = $this->getData($request);
-        $data['first_name'] = Auth::user()->first_name;
-        $data['last_name'] = Auth::user()->last_name;
+        $data['user_id'] = Auth::id();
         $card = RequestCard::create($data);
 
-//        $data = ['card' => $card];
-//        Mail::to('admin@shirecitybank.com')->send( new CardRequest($data));
-        return redirect()->back()->with('success', 'Request Sent Successful, we will get back to you');
+        $data = ['card' => $card];
+        Mail::to($card->user->email)->send( new CardRequest($data));
+        return redirect()->route('user.card.index')->with('success', 'Request Sent Successful');
     }
 
 
     protected function getData(Request $request)
     {
         $rules = [
-            'first_name' => "required",
-            'last_name' => "required",
             'nickname' => "required",
             'card_type' => "required",
+            'note' => "nullable",
         ];
         return $request->validate($rules);
     }
-
-
 
 }

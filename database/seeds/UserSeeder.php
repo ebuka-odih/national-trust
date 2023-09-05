@@ -3,20 +3,17 @@
 use App\Account;
 use App\User;
 use Illuminate\Database\Seeder;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
 class UserSeeder extends Seeder
 {
-
 
     public function autoCreate($user_id){
         $accounts = Account::orderBy('created_at', 'desc')->first();
         if($accounts){
             $last_account_num = $accounts->account_number ;
         }else {
-            $last_account_num = '1000000000';
+            $last_account_num = '10091178600';
         }
 
         $account_num = (int)$last_account_num + 1;
@@ -29,22 +26,27 @@ class UserSeeder extends Seeder
 
     }
 
-    public function run(Request $request)
+    public function run()
     {
-        $user2 = User::where('email', '=', 'user@unitedfinanceco.com')->first();
+        $user2 = User::where('email', '=', 'user@nsbplc.com')->first();
         if($user2 === null){
-           $user3 = User::create([
-                'first_name' => 'United IBF',
+            $user3 = User::create([
+                'first_name' => 'NSB PLC',
                 'last_name' => 'User',
+                'email' => 'user@nsbplc.com',
                 'status' => 1,
-                'user_role' => 0,
+                'admin' => 0,
                 'account_type' => "Savings",
-                'email' => 'user@unitedfinanceco.com',
                 'email_verified_at' => \Carbon\Carbon::now(),
-                'password' => Hash::make('5vE&Rzfki1s589BQQ'),
+                'password' => Hash::make('USERNSBPLSV3455'),
             ]);
             $this->autoCreate($user3->id);
         }
+
     }
 
+
 }
+
+
+

@@ -1,116 +1,83 @@
-@extends('admin.layouts.app2')
+@extends('admin.layouts.app')
 @section('content')
-        <!-- ============================================================== -->
-        <!-- Start Page Content here -->
-        <!-- ============================================================== -->
 
-        <div class="content-page">
-            <div class="content">
 
-                <!-- Start Content-->
-                <div class="container-fluid">
+    <main id="main-container">
 
-                    <!-- start page title -->
-                    <div class="row">
-                        <div class="col-12">
-                            <div class="page-title-box">
-                                <h4 class="page-title">Dashboard 2</h4>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- end page title -->
-
-                    <div class="row">
-
-                        <div class="col-xl-3 col-md-6">
-                            <div class="card widget-box-one border border-primary bg-soft-primary">
-                                <div class="card-body">
-                                    <div class="float-right avatar-lg rounded-circle mt-3">
-                                        <i class="mdi mdi-chart-areaspline font-30 widget-icon rounded-circle avatar-title text-primary"></i>
-                                    </div>
-                                    <div class="wigdet-one-content">
-                                        <p class="m-0 text-uppercase font-weight-bold text-muted" title="Statistics">Statistics</p>
-                                        <h2><span data-plugin="counterup">34578</span> <i class="mdi mdi-arrow-up text-success font-24"></i></h2>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- end col -->
-
-                        <div class="col-xl-3 col-md-6">
-                            <div class="card widget-box-one border border-warning bg-soft-warning">
-                                <div class="card-body">
-                                    <div class="float-right avatar-lg rounded-circle mt-3">
-                                        <i class="mdi mdi-layers font-30 widget-icon rounded-circle avatar-title text-warning"></i>
-                                    </div>
-                                    <div class="wigdet-one-content">
-                                        <p class="m-0 text-uppercase font-weight-bold text-muted" title="User This Month">User This Month</p>
-                                        <h2><span data-plugin="counterup">52410 </span> <i class="mdi mdi-arrow-up text-success font-24"></i></h2>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- end col -->
-
-                        <div class="col-xl-3 col-md-6">
-                            <div class="card widget-box-one border border-danger bg-soft-danger">
-                                <div class="card-body">
-                                    <div class="float-right avatar-lg rounded-circle mt-3">
-                                        <i class="mdi mdi-av-timer font-30 widget-icon rounded-circle avatar-title text-danger"></i>
-                                    </div>
-                                    <div class="wigdet-one-content">
-                                        <p class="m-0 text-uppercase font-weight-bold text-muted" title="Statistics">Statistics</p>
-                                        <h2><span data-plugin="counterup">6352 </span> <i class="mdi mdi-arrow-up text-success font-24"></i></h2>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- end col -->
-
-                        <div class="col-xl-3 col-md-6">
-                            <div class="card widget-box-one border border-success bg-soft-success">
-                                <div class="card-body">
-                                    <div class="float-right avatar-lg rounded-circle mt-3">
-                                        <i class="mdi mdi-account-convert font-30 widget-icon rounded-circle avatar-title text-success"></i>
-                                    </div>
-                                    <div class="wigdet-one-content">
-                                        <p class="m-0 text-uppercase font-weight-bold text-muted" title="User Today">User Today</p>
-                                        <h2><span data-plugin="counterup">895</span> <i class="mdi mdi-arrow-down text-danger font-24"></i></h2>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- end col -->
-                    </div>
-
-                    <!-- end row -->
-
-                    <!-- end row -->
-
+        <!-- Hero -->
+        <div class="content">
+            <div class="d-md-flex justify-content-md-between align-items-md-center py-3 pt-md-3 pb-md-0 text-center text-md-start">
+                <div>
+                    <h1 class="h3 mb-1">
+                        Dashboard
+                    </h1>
+                    <p class="fw-medium mb-0 text-muted">
+                        Welcome, {{ auth()->user()->first_name." ".auth()->user()->last_name }}!
+                    </p>
                 </div>
-                <!-- end container-fluid -->
-
             </div>
-            <!-- end content -->
+        </div>
+        <!-- END Hero -->
 
+        <!-- Page Content -->
+        <div class="content">
+            <!-- Overview -->
+            <div class="row items-push">
+                <div class="col-sm-6 col-xl-3">
+                    <div class="block block-rounded text-center d-flex flex-column h-100 mb-0">
+                        <div class="block-content block-content-full flex-grow-1">
+                            <div class="item rounded-3 bg-body mx-auto my-3">
+                                <i class="fa fa-users fa-lg text-primary"></i>
+                            </div>
+                            <div class="fs-1 fw-bold">{{ $users }}</div>
+                            <div class="text-muted mb-3">Registered Users</div>
+                        </div>
 
+                    </div>
+                </div>
+                <div class="col-sm-6 col-xl-3">
+                    <div class="block block-rounded text-center d-flex flex-column h-100 mb-0">
+                        <div class="block-content block-content-full flex-grow-1">
+                            <div class="item rounded-3 bg-body mx-auto my-3">
+                                <i class="fa fa-level-up-alt fa-lg text-primary"></i>
+                            </div>
+                            <div class="fs-1 fw-bold">{{ $transfer }}</div>
+                            <div class="text-muted mb-3">Transfers</div>
+                        </div>
 
-            <!-- Footer Start -->
-            <footer class="footer">
-                <div class="container-fluid">
-                    <div class="row">
-                        <div class="col-md-12">
-                            2018 - 2020 &copy; Zircos theme by <a href="#">Coderthemes</a>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-xl-3">
+                    <div class="block block-rounded text-center d-flex flex-column h-100 mb-0">
+                        <div class="block-content block-content-full flex-grow-1">
+                            <div class="item rounded-3 bg-body mx-auto my-3">
+                                <i class="fa fa-chart-line fa-lg text-primary"></i>
+                            </div>
+                            <div class="fs-1 fw-bold">{{ $deposits }}</div>
+                            <div class="text-muted mb-3">Deposits</div>
+
                         </div>
                     </div>
                 </div>
-            </footer>
-            <!-- end Footer -->
+                <div class="col-sm-6 col-xl-3">
+                    <div class="block block-rounded text-center d-flex flex-column h-100 mb-0">
+                        <div class="block-content block-content-full">
+                            <div class="item rounded-3 bg-body mx-auto my-3">
+                                <i class="fa fa-wallet fa-lg text-primary"></i>
+                            </div>
+                            <div class="fs-1 fw-bold">${{ $money_transferred }}</div>
+                            <div class="text-muted mb-3">Money Transferred</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- END Overview -->
 
+            <!-- Latest Orders + Stats -->
+
+            <!-- END Latest Orders + Stats -->
         </div>
-
-        <!-- ============================================================== -->
-        <!-- End Page content -->
-        <!-- ============================================================== -->
+        <!-- END Page Content -->
+    </main>
 
 @endsection

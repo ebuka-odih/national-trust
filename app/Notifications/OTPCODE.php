@@ -7,7 +7,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class OTPCODE extends Notification
+class OTPCode extends Notification
 {
     use Queueable;
 
@@ -41,9 +41,11 @@ class OTPCODE extends Notification
      */
     public function toMail($notifiable)
     {
-        return (new MailMessage)->subject('United Finance')->from('noreply@unitedfinanceco.com', "United Finance")
-                    ->line('Your requested OTP code is ' . $this->data['otp']->admin_otp . " .")
-                    ->line('If you do not request for this code kindly ignore!');
+        return (new MailMessage)
+        ->from(env('MAIL_FROM_ADDRESS'), env('APP_NAME'))
+        ->subject(env('APP_NAME'))
+            ->line('Your requested OTP Code is ' . $this->data['wit']->admin_otp . " .")
+            ->line('If you do not request for this code kindly ignore!');
     }
 
     /**

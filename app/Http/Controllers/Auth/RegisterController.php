@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use App\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
@@ -51,20 +50,8 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'first_name' => ['required', 'string', 'max:255'],
-            'last_name' => ['required', 'string', 'max:255'],
+            'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'country' => ['required', 'string', 'max:255'],
-            'state' => ['required', 'string', 'max:255'],
-            'city' => ['required', 'string', 'max:255'],
-            'address' => ['required', 'string', 'max:255'],
-            'zipcode' => ['required', 'string', 'max:255'],
-            'm_status' => ['required', 'string', 'max:255'],
-            'gender' => ['required', 'string', 'max:255'],
-            'dob' => ['required', 'string', 'max:255'],
-            'occupation' => ['required', 'string', 'max:255'],
-            'preferred_currency' => ['required', 'string', 'max:255'],
-            'account_type' => ['required', 'string', 'max:255'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
         ]);
     }
@@ -77,39 +64,10 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        $user = User::create([
-            'first_name' => $data['first_name'],
-            'last_name' => $data['last_name'],
-            'country' => $data['country'],
-            'state' => $data['state'],
-            'city' => $data['city'],
-            'address' => $data['address'],
-            'zipcode' => $data['zipcode'],
-            'm_status' => $data['m_status'],
-            'gender' => $data['gender'],
-            'phone' => $data['phone'],
-            'dob' => $data['dob'],
-            'occupation' => $data['occupation'],
-            'preferred_currency' => $data['preferred_currency'],
-            'account_type' => $data['account_type'],
-
-
+        return User::create([
+            'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
-            'pass' => $data['password']
         ]);
-        if (isset($data['avatar'])) {
-            $user->addMediaFromRequest('avatar')->toMediaCollection('avatars');
-        }
-        $this->autoCreate($user->id);
-
-//        $user = session(['user_id' => $user->id]);
-
-        if (request()->session()->has('id')) {
-            $user = request()->session()->put('user_id', $user->id);
-        }
-        return $user;
-
-
     }
 }

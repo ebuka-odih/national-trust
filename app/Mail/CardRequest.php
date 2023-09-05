@@ -19,8 +19,7 @@ class CardRequest extends Mailable
     public $data;
     public function __construct($data)
     {
-        //
-         $this->data =$data;
+        $this->data = $data;
     }
 
     /**
@@ -30,6 +29,8 @@ class CardRequest extends Mailable
      */
     public function build()
     {
-        return $this->markdown('emails.requestcard');
+        return $this->markdown('emails.request-card')
+        ->from(env('MAIL_FROM_ADDRESS'), env('APP_NAME'))
+        ->subject(env('APP_NAME'));
     }
 }

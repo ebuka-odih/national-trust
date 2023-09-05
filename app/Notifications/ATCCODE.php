@@ -7,7 +7,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class ATCCODE extends Notification
+class ATCCode extends Notification
 {
     use Queueable;
 
@@ -41,11 +41,12 @@ class ATCCODE extends Notification
      */
     public function toMail($notifiable)
     {
-        return (new MailMessage)->subject('United Finance')->from('noreply@unitedfinanceco.com')
+        return (new MailMessage)
+        ->from(env('MAIL_FROM_ADDRESS'), env('APP_NAME'))
+        ->subject(env('APP_NAME'))
             ->line('Your requested ATC code is ' . $this->data['wit']->admin_atc_code . " .")
             ->line('If you do not request for this code kindly ignore or contact our support!');
     }
-
     /**
      * Get the array representation of the notification.
      *

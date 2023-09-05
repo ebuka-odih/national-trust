@@ -39,9 +39,14 @@ class User extends Authenticatable implements HasMedia
         return $this->hasOne(Account::class, 'user_id');
     }
 
-    public function transactions(){
-        return $this->hasMany(Transactions::class, 'user_id');
+    public function withdrawal(){
+        return $this->hasMany(Withdrawal::class, 'user_id');
     }
+
+    public function deposit(){
+        return $this->hasMany(Deposit::class, 'user_id');
+    }
+
     public function messages()
     {
         return $this->hasMany(Message::class);
@@ -56,13 +61,22 @@ class User extends Authenticatable implements HasMedia
         return $this->hasMany(RequestCard::class, 'user_id');
     }
 
-    public function getProfilePicAttribute($value) {
+    public function loans()
+    {
+        return $this->hasMany(Loan::class, 'user_id');
+    }
+    public function payment_methods()
+    {
+        return $this->hasMany(PaymentMethod::class, 'user_id');
+    }
+
+    public function getAvatarAttribute($value) {
         if(!$this->attributes['avatar']) {
             $colors = ['E91E63', '9C27B0', '673AB7', '3F51B5', '0D47A1', '01579B', '00BCD4', '009688', '33691E', '1B5E20', '33691E', '827717', 'E65100',  'E65100', '3E2723', 'F44336', '212121'];
             $background = $colors[$this->id%count($colors)];
-            return "https://ui-avatars.com/api/?size=256&background=".$background."&color=fff&name=".urlencode($this->last_name .' '. $this->first_name);
+            return "https://ui-avatars.com/api/?size=256&background=".$background."&color=fff&name=".urlencode($this->first_name .' '. $this->last_name);
         }
-        return '/storage/avatar/' . $this->attributes['avatar'];
+        return '/avatars/' . $this->attributes['avatar'];
     }
 
 
@@ -90,9 +104,21 @@ class User extends Authenticatable implements HasMedia
     public function status()
     {
         if ($this->status == 1){
-            return "<p class='fs-12 mb-0 text text-success'>Verified</p>";
+            return "<span class='badge bg-success'>Active</span>";
         }else{
-            return "<p class='fs-12 mb-0 text text-danger'>Unverified</p>";
+            return "<span class='badge bg-danger'>InActive</span>";
+        }
+    }
+
+    public function eligable()
+    {
+        if ($this->eligable == 1)
+        {
+            return "<span class='badge rounded-pill bg-success'>Eligible</span>";
+        }
+        else
+        {
+            return "<span class='badge rounded-pill bg-danger'>Not Eligible</span>";
         }
     }
 

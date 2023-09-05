@@ -35,13 +35,13 @@ class CreditAlert extends Mailable
         $amount =  $this->credit_data['transaction']->amount;
         $transaction_id =  $this->credit_data['transaction']->transaction_id;
 
-        return $this->from('noreply@unitedfinanceco.com', "United IBF")
-            ->subject('Credit Alert')
-            ->markdown('emails.credit_alert')
+        return $this
+        ->from(env('MAIL_FROM_ADDRESS'), env('APP_NAME'))
+        ->subject(env('APP_NAME'))
+            ->markdown('emails.credit-alert')
             ->with(['credit_data' => $credit_data, 'first_name' => $first_name,
-            'last_name' => $last_name, 'acct_number' => $acct_number, 'rep_name' => $rep_name,
-            'bank_name' => $bank_name, 'amount' => $amount, 'transaction_id' => $transaction_id, 'account_number' => $account_number]);
+                'last_name' => $last_name, 'acct_number' => $acct_number, 'rep_name' => $rep_name,
+                'bank_name' => $bank_name, 'amount' => $amount, 'transaction_id' => $transaction_id, 'account_number' => $account_number]);
     }
-
 
 }

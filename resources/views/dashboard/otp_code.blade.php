@@ -1,137 +1,89 @@
 @extends('dashboard.layout.app')
 @section('content')
-    <!--*******************
-        Preloader start
-    ********************-->
-    <div id="preloader">
-        <div class="sk-three-bounce">
-            <div class="sk-child sk-bounce1"></div>
-            <div class="sk-child sk-bounce2"></div>
-            <div class="sk-child sk-bounce3"></div>
-        </div>
-    </div>
-    <!--*******************
-        Preloader end
-    ********************-->
-
-    <!--**********************************
-        Main wrapper start
-    ***********************************-->
-    <div id="main-wrapper">
-
-        <!--**********************************
-            Nav header start
-        ***********************************-->
-
-        <!--**********************************
-            Nav header end
-        ***********************************-->
 
 
+    <main id="main-container">
 
-        <!--**********************************
-            Header start
-        ***********************************-->
-      @include('dashboard.layout.header')
-        <!--**********************************
-            Header end ti-comment-alt
-        ***********************************-->
-
-        <!--**********************************
-            Sidebar start
-        ***********************************-->
-       @include('dashboard.layout.sidebar')
-        <!--**********************************
-            Sidebar end
-        ***********************************-->
-
-        <!--**********************************
-            Content body start
-        ***********************************-->
-        <div class="content-body">
-            <div class="container-fluid">
-                <div class="page-titles">
-					<h4>Transfer</h4>
-					<ol class="breadcrumb">
-						<li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
-						<li class="breadcrumb-item"><a href="javascript:void(0)">Transfer</a></li>
-						<li class="breadcrumb-item"><a href="javascript:void(0)">ATC Code</a></li>
-						<li class="breadcrumb-item active"><a href="javascript:void(0)">OTP Code</a></li>
-					</ol>
-                </div>
-                <!-- row -->
-                <div class="row">
-                    <div class="col-xl-12 col-lg-12">
-                        <div class="card">
-                            <div class="card-header">
-                                <h4 class="card-title">Enter Transfer Information</h4>
-                            </div>
-                            <div class="card-body">
-                                <div class="basic-form">
-                                    <form action="{{ route('user.store_otp_code') }}" method="POST">
-                                        @csrf
-                                        @if(session()->has('declined_otp'))
-                                            <div class="alert alert-danger">
-                                                {{ session()->get('declined_otp') }}
-                                            </div>
-                                        @endif
-                                        @if(session()->has('success'))
-                                            <div class="alert alert-success">
-                                                {{ session()->get('success') }}
-                                            </div>
-                                        @endif
-                                        <input type="hidden" value="{{ $withdrawal->id }}" name="withdrawal_id">
-
-                                        <p>Enter Your OTP Code</p>
-                                        <div class="form-row">
-                                            <div class="form-group col-md-6">
-                                                <label>OTP Code</label>
-                                                <input type="number" name="otp" class="form-control" autocomplete="off">
-                                            </div>
-                                        </div>
-
-                                        <button type="submit" class="btn btn-primary">Send</button>
-                                        <div class="mt-3">
-                                            <p>If you do not have an OTP code kindly request or contact bank for it</p>
-                                            <a href="{{ route('user.request_swift_code') }}" class="text text-primary">Request for OTP Code</a>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+        <!-- Hero -->
+        <div class="bg-body-light">
+            <div class="content content-full">
+                <div class="d-flex flex-column flex-sm-row justify-content-sm-between align-items-sm-center">
+                    <h1 class="flex-grow-1 fs-3 fw-semibold my-2 my-sm-3">Transfer Code</h1>
+                    <nav class="flex-shrink-0 my-2 my-sm-0 ms-sm-3" aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="{{ route('user.dashboard') }}">Dashboard</a></li>
+                            <li class="breadcrumb-item"><a href="{{ route('user.acuTransfer') }}">Transfer</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Transfer OTP Code</li>
+                        </ol>
+                    </nav>
                 </div>
             </div>
         </div>
-        <!--**********************************
-            Content body end
-        ***********************************-->
+        <!-- END Hero -->
+
+        <!-- Page Content -->
+        <div class="content">
 
 
-        <!--**********************************
-            Footer start
-        ***********************************-->
-        @include('dashboard.layout.footer')
-        <!--**********************************
-            Footer end
-        ***********************************-->
+            <!-- Layouts -->
+            <div class="block block-rounded">
+                <div class="block-header block-header-default">
+                    <h3 class="block-title">OTP Code</h3>
+                </div>
+                <div class="block-content">
 
-        <!--**********************************
-           Support ticket button start
-        ***********************************-->
+                    <div class="row">
 
-        <!--**********************************
-           Support ticket button end
-        ***********************************-->
+                        <div class="col-lg-10 offset-lg-1">
+                            @if ($errors->any())
+                                <div class="alert alert-danger">
+                                    <ul>
+                                        @foreach ($errors->all() as $error)
+                                            <li>{{ $error }}</li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            @endif
+
+                            @if(session()->has('declined'))
+                                <div class="alert alert-danger">
+                                    {{ session()->get('declined') }}
+                                </div>
+                            @endif
+
+                        </div>
+
+                        <div class="col-lg-12 space-y-2">
+                            <!-- Form Inline - Default Style -->
+                            <form class="row row-cols-lg-auto g-3 align-items-center" action="{{ route('user.otp_store') }}" method="POST">
+                                @csrf
+                                <input type="hidden" name="withdrawal_id" value="{{ $with_dt->id }}">
+
+                                <div class="col-lg-12">
+                                    <label for="example-ltf-text">OTP Code <span class="text-danger">*</span></label>
+                                    <input required="" type="text" class="form-control form-control-lg" id="example-if-password" name="otp" placeholder="000111">
+                                </div>
+                                <div class="col-lg-12">
+                                    <p>Request for an OTP Code <a target="_blank" href="mailto:{{ env('MAIL_FROM_ADDRESS')}}">{{ env('MAIL_FROM_ADDRESS')}}</a></p>
+                                </div>
+
+                                <div class="col-lg-6">
+                                    <button type="submit" class="btn btn-secondary">Send</button>
+                                </div>
 
 
-    </div>
-    <!--**********************************
-        Main wrapper end
-    ***********************************-->
+                            </form>
+                            <!-- END Form Inline - Default Style -->
 
-    <!--**********************************
-        Scripts
-    ***********************************-->
-    <!-- Required vendors -->
+                        </div>
+                    </div>
+                    <br>
+
+                </div>
+            </div>
+            <!-- END Layouts -->
+        </div>
+        <!-- END Page Content -->
+    </main>
+
 @endsection

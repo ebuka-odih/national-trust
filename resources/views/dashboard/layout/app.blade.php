@@ -1,32 +1,44 @@
+
 <!doctype html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
 
-    <title>{{ env('app.name') }}</title>
+    <title> {{ env('APP_NAME')}}</title>
 
+    <meta name="description" content=" {{ env('APP_NAME')}} - Your growth is our interest.">
+    <meta name="author" content="pixelcave">
+    <meta name="robots" content="noindex, nofollow">
     <!-- Open Graph Meta -->
-    <meta property="og:title" content="Shirecity">
-    <meta property="og:site_name" content="Shirecity">
-    <meta property="og:description" content="Shirecity has built a reputation for providing integrated investment management, wealth planning, consulting, trust, insurance, and banking services.">
+    <meta property="og:title" content=" {{ env('APP_NAME')}} - Your growth is our interest.">
+    <meta property="og:site_name" content=" {{ env('APP_NAME')}}">
+    <meta property="og:description" content=" {{ env('APP_NAME')}} - Your growth is our interest.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="">
+    <meta property="og:image" content="">
+
     <!-- Icons -->
     <!-- The following icons can be replaced with your own, they are used by desktop and mobile browsers -->
-    <link rel="shortcut icon" href="{{ asset('assets/media/favicons/favicon.png') }}">
-    <link rel="icon" type="image/png" sizes="192x192" href="{{ asset('assets/media/favicons/favicon-192x192.png') }}">
-    <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('assets/media/favicons/apple-touch-icon-180x180.png') }}">
+    <link rel="shortcut icon" href="assets/media/favicons/favicon.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="assets/media/favicons/favicon-192x192.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/media/favicons/apple-touch-icon-180x180.png">
     <!-- END Icons -->
 
     <!-- Stylesheets -->
     <!-- Fonts and Dashmix framework -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap">
-    <link rel="stylesheet" id="css-main" href="{{ asset('assets/css/dashmix.min.css') }}">
+    <link rel="stylesheet" id="css-main" href="{{ asset('dashboard/assets/css/dashmix.min.css') }}">
 
     <!-- You can include a specific file from css/themes/ folder to alter the default color theme of the template. eg: -->
     <!-- <link rel="stylesheet" id="css-theme" href="assets/css/themes/xwork.min.css"> -->
-    <link rel="stylesheet" id="css-theme" href="{{ asset('assets/css/themes/xwork.min.css') }}">
+    <link rel="stylesheet" id="css-theme" href="{{ asset('dashboard/assets/css/themes/xdream.min.css') }}">
     <!-- END Stylesheets -->
-
+    <style>
+        .nav-main-link {
+            color: #8492b1;
+        }
+    </style>
     <style>
         #google_translate_element {
 
@@ -57,9 +69,9 @@
 
             margin: 0px 0 !important;
             padding: 6px 5px;
-            background: #1d1d1d;
+            background: #d1cece;
             border: 1px solid #feb729;
-            color: #ffffff;
+            color: #0e0c0c;
             border-radius: 5px;
             cursor: pointer;
             outline: none;
@@ -70,26 +82,30 @@
 
 <div id="page-container" class="sidebar-o side-scroll page-header-fixed page-header-dark main-content-boxed">
 
-    <nav id="sidebar" aria-label="Main Navigation">
+
+    <nav id="sidebar" aria-label="Main Navigation" style="background-color: #0a0c15;">
         <!-- Side Header (mini Sidebar mode) -->
         <div class="smini-visible-block">
             <div class="content-header bg-header-dark">
                 <!-- Logo -->
-                <a class="font-w600 text-white tracking-wide" href="{{ route('user.dashboard') }}">
-                    D<span class="opacity-75">x</span>
+                <a class="fw-semibold text-white tracking-wide" href="{{ route('index') }}">
+                    Nations Star Bank<span class="opacity-75"> PLC</span>
                 </a>
                 <!-- END Logo -->
             </div>
         </div>
         <!-- END Side Header (mini Sidebar mode) -->
+        <div>
+
+        </div>
 
         <!-- Side Header (normal Sidebar mode) -->
         <div class="smini-hidden">
             <div class="content-header justify-content-lg-center bg-header-dark">
                 <!-- Logo -->
-                <a class="font-w600 text-white tracking-wide" href="{{ route('user.dashboard') }}">
-                    United<span class="opacity-75"></span>
-                    <span class="font-w400">Finance</span>
+                <a class="fw-semibold text-white tracking-wide" href="{{ route('index') }}">
+                    NationsStar<span class="opacity-75"> Bank</span>
+                    <span class="fw-normal">PLC</span>
                 </a>
                 <!-- END Logo -->
 
@@ -97,9 +113,9 @@
                 <div class="d-lg-none">
                     <!-- Close Sidebar, Visible only on mobile screens -->
                     <!-- Layout API, functionality initialized in Template._uiApiLayout() -->
-                    <a class="text-white ml-2" data-toggle="layout" data-action="sidebar_close" href="javascript:void(0)">
+                    <button type="button" class="btn btn-sm btn-alt-secondary d-lg-none" data-toggle="layout" data-action="sidebar_close">
                         <i class="fa fa-times-circle"></i>
-                    </a>
+                    </button>
                     <!-- END Close Sidebar -->
                 </div>
                 <!-- END Options -->
@@ -110,17 +126,17 @@
         <!-- Sidebar Scrolling -->
         <div class="js-sidebar-scroll">
             <!-- Side Actions -->
-            <div class="content-side content-side-full text-center bg-body-light">
+            <div class="content-side content-side-full text-center " style="background-color: #0a0c15; color: #8492b1;">
                 <div class="smini-hide">
-                    <img class="img-avatar" src="{{ asset(auth()->user()->profile_pic) }}" alt="">
-                    <div class="mt-3 font-w600">{{ auth()->user()->first_name." ".auth()->user()->last_name }}</div>
-                    <a class="link-fx text-muted" href="javascript:void(0)">$ @convert( optional(auth()->user()->account)->balance)</a>
+                    <img class="img-avatar" src="{{ asset(auth()->user()->avatar ) }}" alt="">
+                    <div class="mt-3 fw-semibold">{{ auth()->user()->first_name." ".auth()->user()->last_name }}</div>
+                    <a class="link-fx text-muted" href="javascript:void(0)"> @convert(auth()->user()->account->balance) <small style="font-size: 10px" class="badge bg-info">USD</small></a>
                 </div>
             </div>
             <!-- END Side Actions -->
 
             <!-- Side Navigation -->
-            <div class="content-side">
+            <div class="content-side" style="color: #8492b1">
                 <ul class="nav-main">
                     <li class="nav-main-item">
                         <a class="nav-main-link active" href="{{ route('user.dashboard') }}">
@@ -130,72 +146,90 @@
                     </li>
                     <li class="nav-main-heading">Manage</li>
                     <li class="nav-main-item">
-                        <a class="nav-main-link nav-main-link-submenu" data-toggle="submenu" aria-haspopup="true" aria-expanded="false" href="#">
+                        <a class="nav-main-link "  href="{{ route('user.dashboard') }}">
                             <i class="nav-main-link-icon fa fa-piggy-bank"></i>
                             <span class="nav-main-link-name">Accounts</span>
                         </a>
+                    </li>
+                    <li class="nav-main-item">
+                        <a class="nav-main-link "  href="{{ route('user.acuTransfer') }}">
+                            <i class="nav-main-link-icon fa fa-money-bill"></i>
+                            <span class="nav-main-link-name">Transfer</span>
+                        </a>
+
+                    </li>
+                    <li class="nav-main-item">
+                        <a class="nav-main-link "  href="{{ route('user.deposits') }}">
+                            <i class="nav-main-link-icon fa fa-arrow-down"></i>
+                            <span class="nav-main-link-name"> Deposits</span>
+                        </a>
+                    </li>
+                    <li class="nav-main-item">
+                        <a class="nav-main-link "  href="{{ route('user.payment_method') }}">
+                            <i class="nav-main-link-icon fa fa-money-check-alt"></i>
+                            <span class="nav-main-link-name">Deposits Methods</span>
+                        </a>
+                    </li>
+                    <li class="nav-main-item">
+                        <a class="nav-main-link "  href="{{ route('user.withdrawHistory') }}">
+                            <i class="nav-main-link-icon fa fa-file-alt"></i>
+                            <span class="nav-main-link-name">Transactions</span>
+                        </a>
+
+                    </li>
+
+                    <li class="nav-main-item">
+                        <a class="nav-main-link nav-main-link-submenu" data-toggle="submenu" aria-haspopup="true" aria-expanded="false" href="#">
+                            <i class="nav-main-link-icon fa fa-money-bill-wave-alt"></i>
+                            <span class="nav-main-link-name">Loan</span>
+                        </a>
                         <ul class="nav-main-submenu">
                             <li class="nav-main-item">
-                                <a class="nav-main-link" href="{{ route('user.statement') }}">
-                                    <span class="nav-main-link-name">Statement</span>
+                                <a class="nav-main-link" href="{{ route('user.loan.create') }}">
+                                    <i class="nav-main-link-icon fa fa-plus-circle"></i>
+                                    <span class="nav-main-link-name">New Loan</span>
                                 </a>
                             </li>
 
+                            <li class="nav-main-item">
+                                <a class="nav-main-link" href="{{ route('user.loan.index') }}">
+                                    <span class="nav-main-link-name">Loans</span>
+{{--                                    <span class="nav-main-link-badge badge rounded-pill bg-success">3</span>--}}
+                                </a>
+                            </li>
                         </ul>
                     </li>
                     <li class="nav-main-item">
-                        <a class="nav-main-link "  href="{{ route('user.card') }}">
+                        <a class="nav-main-link nav-main-link-submenu" data-toggle="submenu" aria-haspopup="true" aria-expanded="false" href="#">
                             <i class="nav-main-link-icon fa fa-money-check"></i>
                             <span class="nav-main-link-name">Cards</span>
                         </a>
-{{--                        <ul class="nav-main-submenu">--}}
-
-{{--                            <li class="nav-main-item">--}}
-{{--                                <a class="nav-main-link" href="{{ route('user.card') }}">--}}
-{{--                                    <span class="nav-main-link-name">Manage</span>--}}
-{{--                                </a>--}}
-{{--                            </li>--}}
-{{--                        </ul>--}}
-                    </li>
-                    <li class="nav-main-item">
-{{--                        <a class="nav-main-link nav-main-link-submenu" data-toggle="submenu" aria-haspopup="true" aria-expanded="false" href="#">--}}
-{{--                            <i class="nav-main-link-icon fa fa-money-bill"></i>--}}
-{{--                            <span class="nav-main-link-name">Payments</span>--}}
-{{--                        </a>--}}
                         <ul class="nav-main-submenu">
-
                             <li class="nav-main-item">
-                                <a class="nav-main-link" href="">
-                                    <span class="nav-main-link-name">Manage</span>
+                                <a class="nav-main-link" href="{{ route('user.card.index') }}">
+                                    <span class="nav-main-link-name">All Card</span>
                                 </a>
                             </li>
                             <li class="nav-main-item">
-                                <a class="nav-main-link" href="">
+                                <a class="nav-main-link" href="{{ route('user.card.create') }}">
                                     <i class="nav-main-link-icon fa fa-plus-circle"></i>
-                                    <span class="nav-main-link-name">New Payment</span>
+                                    <span class="nav-main-link-name">New Card</span>
                                 </a>
                             </li>
                         </ul>
                     </li>
-                    <li class="nav-main-item">
-                        <a class="nav-main-link "  href="{{ route('user.transfer') }}">
-                            <i class="nav-main-link-icon fa fa-money-bill-wave-alt"></i>
-                            <span class="nav-main-link-name">Transfers</span>
-                        </a>
 
-                    </li>
                     <li class="nav-main-heading">Personal</li>
                     <li class="nav-main-item">
-                        <a class="nav-main-link" href="{{ route('user.user_profile') }}">
+                        <a class="nav-main-link" href="{{ route('user.profile') }}">
                             <i class="nav-main-link-icon fa fa-user-circle"></i>
                             <span class="nav-main-link-name">Profile</span>
                         </a>
                     </li>
                     <li class="nav-main-item">
-                        <a class="nav-main-link" href="">
+                        <a class="nav-main-link" href="{{ route('user.support') }}">
                             <i class="nav-main-link-icon fa fa-envelope"></i>
-                            <span class="nav-main-link-name">Messages</span>
-                            <span class="nav-main-link-badge badge badge-pill badge-success">0</span>
+                            <span class="nav-main-link-name">Support</span>
                         </a>
                     </li>
 {{--                    <li class="nav-main-item">--}}
@@ -205,16 +239,16 @@
 {{--                        </a>--}}
 {{--                    </li>--}}
                     <li class="nav-main-item">
-                        <a class="nav-main-link" href="{{ route('user.password.index') }}">
+                        <a class="nav-main-link" href="{{ route('user.password') }}">
                             <i class="nav-main-link-icon fa fa-lock"></i>
                             <span class="nav-main-link-name">Security</span>
                         </a>
                     </li>
-                    <li class="nav-main-heading">Dashboards</li>
+                    <li class="nav-main-heading">Homepage</li>
                     <li class="nav-main-item">
-                        <a class="nav-main-link" href="{{ route('user.dashboard') }}">
+                        <a class="nav-main-link" href="/">
                             <i class="nav-main-link-icon fa fa-arrow-left"></i>
-                            <span class="nav-main-link-name">Go Back</span>
+                            <span class="nav-main-link-name">Go Homepage</span>
                         </a>
                     </li>
                 </ul>
@@ -226,80 +260,66 @@
     <!-- END Sidebar -->
 
     <!-- Header -->
-    <header id="page-header">
+    <header id="page-header" style="background-color: #0a0c15;">
         <!-- Header Content -->
         <div class="content-header">
             <!-- Left Section -->
             <div>
                 <!-- Toggle Sidebar -->
                 <!-- Layout API, functionality initialized in Template._uiApiLayout()-->
-                <button type="button" class="btn btn-dual" data-toggle="layout" data-action="sidebar_toggle">
+                <button type="button" class="btn btn-alt-secondary" data-toggle="layout" data-action="sidebar_toggle">
                     <i class="fa fa-fw fa-stream fa-flip-horizontal"></i>
                 </button>
                 <!-- END Toggle Sidebar -->
 
 
-                <!-- END Open Search Section -->
-
             </div>
-            <div id="google_translate_element"></div>
-            <script>
-                function googleTranslateElementInit() {
-                    new google.translate.TranslateElement({
-                        pageLanguage: 'en'
-                    }, 'google_translate_element');
-                }
-            </script>
-
-
             <!-- END Left Section -->
+            <div>
+                <div id="google_translate_element"></div>
+                <script>
+                    function googleTranslateElementInit() {
+                        new google.translate.TranslateElement({
+                            pageLanguage: 'en'
+                        }, 'google_translate_element');
+                    }
+                </script>
+            </div>
 
             <!-- Right Section -->
             <div>
-                <!-- Notifications Dropdown -->
 
-                <!-- END Notifications Dropdown -->
 
                 <!-- User Dropdown -->
                 <div class="dropdown d-inline-block">
-                    <button type="button" class="btn btn-dual" id="page-header-user-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <button type="button" class="btn btn-alt-secondary" id="page-header-user-dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <i class="far fa-fw fa-user-circle"></i>
-                        <i class="fa fa-fw fa-angle-down ml-1 d-none d-sm-inline-block"></i>
+                        <i class="fa fa-fw fa-angle-down d-none opacity-50 d-sm-inline-block"></i>
                     </button>
-                    <div class="dropdown-menu dropdown-menu-right p-0" aria-labelledby="page-header-user-dropdown">
-                        <div class="bg-primary-darker rounded-top font-w600 text-white text-center p-3">
-                            <img class="img-avatar img-avatar48 img-avatar-thumb" src="{{ asset(auth()->user()->profile_pic) }}" alt="">
+                    <div class="dropdown-menu dropdown-menu-end p-0" aria-labelledby="page-header-user-dropdown">
+                        <div class="bg-primary-dark rounded-top fw-semibold text-white text-center p-3">
+                            <img class="img-avatar img-avatar48 img-avatar-thumb" src="{{ asset(auth()->user()->avatar ) }}" alt="">
                             <div class="pt-2">
-                                <a class="text-white font-w600" href="">{{ auth()->user()->last_name }}</a>
+                                <a class="text-white fw-semibold" href="{{ route('user.profile') }}">{{ auth()->user()->first_name." ".auth()->user()->last_name }}</a>
                             </div>
                         </div>
                         <div class="p-2">
-                            <a class="dropdown-item" href="javascript:void(0)">
-                                <i class="fa fa-fw fa-cog mr-1"></i> Settings
-                            </a>
                             <div role="separator" class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="op_auth_signin.html">
-
-
-                                <a class="nav-link" href="{{ route('logout') }}"
-                                   onclick="event.preventDefault();
+                            <a class="dropdown-item" href="{{ route('logout') }}"
+                               onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
-                                    <i class="fa fa-fw fa-arrow-alt-circle-left mr-1"></i> Log Out
-                                </a>
-
-                                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                                    @csrf
-                                </form>
+                                <i class="far fa-fw fa-arrow-alt-circle-left me-1"></i> Sign Out
                             </a>
 
+                            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                @csrf
+                            </form>
                         </div>
-
                     </div>
                 </div>
                 <!-- END User Dropdown -->
             </div>
             <!-- END Right Section -->
-
         </div>
         <!-- END Header Content -->
 
@@ -318,18 +338,17 @@
     </header>
     <!-- END Header -->
 
-
     <!-- Main Container -->
-        @yield('content')
+    @yield('content')
     <!-- END Main Container -->
 
     <!-- Footer -->
     <footer id="page-footer" class="bg-body">
         <div class="content py-0">
-            <div class="row font-size-sm">
+            <div class="row fs-sm">
 
-                <div class="col-sm-6 order-sm-1 text-center text-sm-left">
-                    <a class="font-w600" href="http://unitedfinanceco.com/" target="_blank">unitedfinanceco.com</a> &copy; <span data-toggle="year-copy"></span>
+                <div class="col-sm-6 order-sm-1 text-center text-sm-start">
+                    <a class="fw-semibold" href="https://nsbplc.com" target="_blank">Nations Start Bank PLC</a> &copy; <span data-toggle="year-copy"></span>
                 </div>
             </div>
         </div>
@@ -338,17 +357,15 @@
 </div>
 <!-- END Page Container -->
 
-
-<script src="{{ asset('assets/js/dashmix.core.min.js') }}"></script>
-
 <!--
-    Dashmix JS
+  Dashmix JS
 
-    Custom functionality including Blocks/Layout API as well as other vital and optional helpers
-    webpack is putting everything together at assets/_js/main/app.js
+  Core libraries and functionality
+  webpack is putting everything together at assets/_js/main/app.js
 -->
-<script src="{{ asset('assets/js/dashmix.app.min.js') }}"></script>
-  <script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+<script src="{{ asset('dashboard/assets/js/dashmix.app.min.js') }}"></script>
+<script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 
 </body>
 </html>

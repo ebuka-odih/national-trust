@@ -1,206 +1,160 @@
 @extends('dashboard.layout.app')
 @section('content')
-    <!--*******************
-        Preloader start
-    ********************-->
-    <div id="preloader">
-        <div class="sk-three-bounce">
-            <div class="sk-child sk-bounce1"></div>
-            <div class="sk-child sk-bounce2"></div>
-            <div class="sk-child sk-bounce3"></div>
-        </div>
-    </div>
-    <!--*******************
-        Preloader end
-    ********************-->
 
-    <!--**********************************
-        Main wrapper start
-    ***********************************-->
-    <div id="main-wrapper">
 
-        <!--**********************************
-            Nav header start
-        ***********************************-->
-        <div class="nav-header">
-            <a href="index.html" class="brand-logo">
-                <img class="logo-abbr" src="{{ asset('dashboard/images/logo.png') }}" alt="">
-                <img class="logo-compact" src="{{ asset('dashboard/images/logo-text.png') }}" alt="">
-                <img class="brand-title" src="{{ asset('dashboard/images/logo-text.png') }}" alt="">
-            </a>
+    <main id="main-container">
 
-            <div class="nav-control">
-                <div class="hamburger">
-                    <span class="line"></span><span class="line"></span><span class="line"></span>
+        <!-- Hero -->
+        <div class="bg-body-light">
+            <div class="content content-full">
+                <div class="d-flex flex-column flex-sm-row justify-content-sm-between align-items-sm-center">
+                    <h1 class="flex-grow-1 fs-3 fw-semibold my-2 my-sm-3">Transfer</h1>
+                    <nav class="flex-shrink-0 my-2 my-sm-0 ms-sm-3" aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="{{ route('user.dashboard') }}">Dashboard</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Transfer</li>
+                        </ol>
+                    </nav>
                 </div>
             </div>
         </div>
-        <!--**********************************
-            Nav header end
-        ***********************************-->
+        <!-- END Hero -->
 
-
-
-        <!--**********************************
-            Header start
-        ***********************************-->
-      @include('dashboard.layout.header')
-        <!--**********************************
-            Header end ti-comment-alt
-        ***********************************-->
-
-        <!--**********************************
-            Sidebar start
-        ***********************************-->
-       @include('dashboard.layout.sidebar')
-        <!--**********************************
-            Sidebar end
-        ***********************************-->
-
-        <!--**********************************
-            Content body start
-        ***********************************-->
-        <div class="content-body">
-            <div class="container-fluid">
-                <div class="page-titles">
-					<h4>Transfer</h4>
-					<ol class="breadcrumb">
-						<li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
-						<li class="breadcrumb-item active"><a href="javascript:void(0)">Transfer</a></li>
-					</ol>
-                </div>
-                <!-- row -->
-                <div class="row">
-                    <div class="col-xl-12 col-lg-12">
-                        <div class="card">
-                            <div class="card-header">
-                                <h4 class="card-title">Enter Transfer Information</h4>
-                            </div>
-                            <div class="card-body">
-                                <div class="basic-form">
-                                    <form action="{{ route('user.store') }}" method="POST">
-                                        @csrf
-                                        @if ($errors->any())
-                                            <div class="alert alert-danger">
-                                                <ul>
-                                                    @foreach ($errors->all() as $error)
-                                                        <li>{{ $error }}</li>
-                                                    @endforeach
-                                                </ul>
-                                            </div>
-                                        @endif
-
-                                        @if(session()->has('declined'))
-                                            <div class="alert alert-danger">
-                                                {{ session()->get('declined') }}
-                                            </div>
-                                        @endif
-{{--                                        <input type="hidden" value="{{ $withdraw->id }}" name="withdrawal_id">--}}
-
-                                        <div class="form-row">
-                                            <div class="form-group col-md-6">
-                                                <label>From</label>
-{{--                                                <input type="number" name="amount" value="amount" class="form-control" placeholder="Enter Amount">--}}
-
-                                                <select name="from" class="form-control" id="">
-                                                    <option value="{{ auth()->user()->account->account_number }}">{{ auth()->user()->account->account_number }}</option>
-                                                </select>
-{{--                                                <input type="text" class="form-control" value="{{ auth()->user()->account->account_number }}">--}}
-                                            </div>
-                                            <div class="form-group col-md-6">
-                                                <label>Amount</label>
-                                                <input type="number" name="amount"  class="form-control" >
-                                            </div>
-                                            <div class="form-group col-md-4">
-                                                <label>Account Number</label>
-                                                <input type="text" name="account_number" class="form-control" >
-                                            </div>
-                                            <div class="form-group col-md-4">
-                                                <label>Recipient's Name</label>
-                                                <input type="text" name="rep_name" class="form-control" >
-                                            </div>
-                                            <div class="form-group col-md-4">
-                                                <label>Swift Code</label>
-                                                <input type="text" name="swift_code" class="form-control" >
-                                            </div>
-                                        </div>
-                                        <div class="form-row">
-                                            <div class="form-group col-md-6">
-                                                <label>Bank</label>
-                                                <input type="text" name="bank_name" class="form-control" placeholder="Enter Bank Name">
-                                            </div>
-                                            <div class="form-group col-md-6">
-                                                <label>Account Type</label>
-                                                <select id="inputState" name="account_type" class="form-control">
-                                                    <option selected>Choose Account Type</option>
-                                                    <option value="savings">Savings</option>
-                                                    <option value="current">Current</option>
-                                                </select>
-                                            </div>
-                                        </div>
-{{--                                        <div class="form-row">--}}
-{{--                                            <div class="form-group col-md-6">--}}
-{{--                                                <label>Routing Transit Number (RTN)</label>--}}
-{{--                                                <input type="text" name="rtn" class="form-control" placeholder="Enter Account Number">--}}
-{{--                                            </div>--}}
-{{--                                            <div class="form-group col-md-6">--}}
-{{--                                                <label>Swift Code</label>--}}
-{{--                                                <input type="text"  name="swift_code" class="form-control" placeholder="Receiver Name">--}}
-{{--                                            </div>--}}
-{{--                                        </div>--}}
-                                        <div class="form-row">
-                                            <div class="form-group col-md-10">
-                                                <label>Note</label>
-                                                <textarea class="form-control" rows="3" name="note"></textarea>
-                                            </div>
-                                        </div>
-
-{{--                                        <div class="form-group">--}}
-{{--                                            <div class="form-check">--}}
-{{--                                                <input class="form-check-input" type="checkbox">--}}
-{{--                                                <label class="form-check-label">--}}
-{{--                                                    Check me out--}}
-{{--                                                </label>--}}
-{{--                                            </div>--}}
-{{--                                        </div>--}}
-                                        <button type="submit" class="btn btn-primary">Send</button>
-                                    </form>
-                                </div>
+        <!-- Page Content -->
+        <div class="content">
+            <div class="row">
+                <div class="col-xl-3">
+                    <!-- Card #1 -->
+                    <a class="block block-rounded block-link-shadow" href="javascript:void(0)" style="background-color: #0a0c15; color: #8492b1;">
+                        <div class="block-content block-content-full ribbon ribbon-dark ribbon-modern ribbon-primary">
+                            <div class="py-3 text-center">
+                                <i class="fa fa-university fa-3x text-gray"></i>
+                                <h4 class="fs-lg  mt-3 mb-0" style="color: #8492b1;">
+                                    ACU Transfer
+                                </h4>
                             </div>
                         </div>
+                    </a>
+                    <!-- END Card #1 -->
+                </div>
+
+                <div class="col-xl-3">
+                    <!-- Card #1 -->
+                    <a class="block block-rounded block-link-shadow" href="javascript:void(0)">
+                        <div class="block-content block-content-full ribbon ribbon-dark ribbon-modern ribbon-primary">
+                            <div class="py-3 text-center">
+                                <i class="fa fa-exchange-alt fa-3x text-gray"></i>
+{{--                                <i class="fa fa-envelope-open-dollar"></i>--}}
+                                <h4 class="fs-lg  mt-3 mb-0" style="color: #8492b1;">
+                                    Other Bank Transfer
+                                </h4>
+                            </div>
+                        </div>
+                    </a>
+                    <!-- END Card #1 -->
+                </div>
+
+                <div class="col-xl-3">
+                    <!-- Card #1 -->
+                    <a class="block block-rounded block-link-shadow" href="javascript:void(0)">
+                        <div class="block-content block-content-full ribbon ribbon-dark ribbon-modern ribbon-primary">
+                            <div class="py-3 text-center">
+                                <i class="fa fa-money-check-alt fa-3x text-gray"></i>
+                                {{--                                <i class="fa fa-envelope-open-dollar"></i>--}}
+                                <h4 class="fs-lg  mt-3 mb-0" style="color: #8492b1;">
+                                    Foreign Currency
+                                </h4>
+                            </div>
+                        </div>
+                    </a>
+                    <!-- END Card #1 -->
+                </div>
+
+                <div class="col-xl-3">
+                    <!-- Card #1 -->
+                    <a class="block block-rounded block-link-shadow" href="javascript:void(0)">
+                        <div class="block-content block-content-full ribbon ribbon-dark ribbon-modern ribbon-primary">
+                            <div class="py-3 text-center">
+                                <i class="fa fa-wifi fa-3x text-gray"></i>
+                                {{--                                <i class="fa fa-envelope-open-dollar"></i>--}}
+                                <h4 class="fs-lg  mt-3 mb-0" style="color: #8492b1;">
+                                    Wire Transfer
+                                </h4>
+                            </div>
+                        </div>
+                    </a>
+                    <!-- END Card #1 -->
+                </div>
+
+            </div>
+
+            <!-- Layouts -->
+            <div class="block block-rounded">
+                <div class="block-header block-header-default">
+                    <h3 class="block-title">Make A Transfer</h3>
+                </div>
+                <div class="block-content">
+
+                    <div class="row">
+
+                        <div class="col-lg-12 space-y-2">
+                            <!-- Form Inline - Default Style -->
+                            <form class="row row-cols-lg-auto g-3 align-items-center" action="be_forms_layouts.html" method="POST" onsubmit="return false;">
+                                <div class="col-lg-6">
+                                    <label for="example-ltf-text">From <span class="text-danger">*</span></label>
+                                    <input type="text" readonly class="form-control form-control-lg" id="example-if-email" name="from" value="{{ auth()->user()->account->account_number }}">
+                                </div>
+                                <div class="col-lg-6">
+                                    <label for="example-ltf-text">Amount <span class="text-danger">*</span></label>
+                                    <input type="number" class="form-control form-control-lg" id="example-if-password" name="amount" placeholder="$">
+                                </div>
+
+                                <div class="col-lg-4">
+                                    <label for="example-ltf-text">Transaction Type <span class="text-danger">*</span></label>
+                                    <select id="inputState" name="trans_type" class="form-control form-control-lg" required="">
+                                        <option selected="">Choose Transaction Type</option>
+                                        <option value="Internal-Transaction">Internal Transaction</option>
+                                        <option value="Local-Transaction">Local Transaction</option>
+                                        <option value="International-Transaction">International Transaction</option>
+                                    </select>
+                                </div>
+                                <div class="col-lg-4">
+                                    <label for="example-ltf-text">Account Number <span class="text-danger">*</span></label>
+                                    <input type="number" class="form-control form-control-lg" id="example-if-password" name="acct_number" placeholder="Recipient Acct No">
+                                </div>
+                                <div class="col-lg-4">
+                                    <label for="example-ltf-text">Recipient's Name <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control form-control-lg" id="example-if-password" name="rep_name" placeholder="Recipient Name">
+                                </div>
+
+                                <div class="col-lg-6">
+                                    <label for="example-ltf-text">Bank Name <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control form-control-lg" id="example-if-password" name="bank_name" placeholder="Recipient Acct No">
+                                </div>
+                                <div class="col-lg-6">
+                                    <label for="example-ltf-text">Account Type <span class="text-danger">*</span></label>
+                                    <select id="inputState" name="account_type" class="form-control form-control-lg" required="">
+                                        <option selected="" disabled="">Account Type</option>
+                                        <option value="Savings">Savings</option>
+                                        <option value="Checking">Checking</option>
+                                        <option value="Current">Current</option>
+                                        <option value="Offshore">Offshore</option>
+                                        <option value="Joint">Joint</option>
+                                        <option value="Fixed Deposit">Fixed Deposit</option>
+                                    </select>
+                                </div>
+                            </form>
+                            <!-- END Form Inline - Default Style -->
+
+                        </div>
                     </div>
+                    <br>
+
                 </div>
             </div>
+            <!-- END Layouts -->
         </div>
-        <!--**********************************
-            Content body end
-        ***********************************-->
+        <!-- END Page Content -->
+    </main>
 
-
-        <!--**********************************
-            Footer start
-        ***********************************-->
-        @include('dashboard.layout.footer')
-        <!--**********************************
-            Footer end
-        ***********************************-->
-
-        <!--**********************************
-           Support ticket button start
-        ***********************************-->
-
-        <!--**********************************
-           Support ticket button end
-        ***********************************-->
-
-
-    </div>
-    <!--**********************************
-        Main wrapper end
-    ***********************************-->
-
-    <!--**********************************
-        Scripts
-    ***********************************-->
-    <!-- Required vendors -->
 @endsection

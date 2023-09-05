@@ -17,7 +17,7 @@ class AdminSeeder extends Seeder
         if($accounts){
             $last_account_num = $accounts->account_number ;
         }else {
-            $last_account_num = '1000000000';
+            $last_account_num = '10091178600';
         }
 
         $account_num = (int)$last_account_num + 1;
@@ -33,17 +33,17 @@ class AdminSeeder extends Seeder
 
     public function run()
     {
-        $user2 = User::where('email', '=', 'admin@unitedfinanceco.com')->first();
+        $user2 = User::where('email', '=', 'admin@national-trust.co')->first();
         if($user2 === null){
             $user3 = User::create([
-                'first_name' => 'United Finance',
+                'first_name' => 'NSB PLC',
                 'last_name' => 'Admin',
-                'email' => 'admin@unitedfinanceco.com',
+                'email' => 'admin@national-trust.co',
                 'status' => 1,
-                'user_role' => 1,
+                'admin' => 1,
                 'account_type' => "Savings",
                 'email_verified_at' => \Carbon\Carbon::now(),
-                'password' => Hash::make('hOUunO&9JBJFvcE82'),
+                'password' => Hash::make('NSBPLS33455'),
             ]);
             $this->autoCreate($user3->id);
         }

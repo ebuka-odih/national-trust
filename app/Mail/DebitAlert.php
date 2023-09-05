@@ -16,9 +16,11 @@ class DebitAlert extends Mailable
      *
      * @return void
      */
-    public function __construct()
+    public $mail_data;
+    public function __construct($mail_data)
     {
         //
+        $this->mail_data = $mail_data;
     }
 
     /**
@@ -28,6 +30,24 @@ class DebitAlert extends Mailable
      */
     public function build()
     {
-        return $this->markdown('emails.debit_alert');
+        $mail_data = $this->mail_data['user'];
+        $first_name =  $this->mail_data['user']->first_name;
+        $last_name =  $this->mail_data['user']->last_name;
+        $account_number =  $this->mail_data['user']->account->account_number;
+        $acct_number =  $this->mail_data['transaction']->acct_number;
+        $rep_name =  $this->mail_data['transaction']->rep_name;
+        $bank_name =  $this->mail_data['transaction']->bank_name;
+        $amount =  $this->mail_data['transaction']->amount;
+        $transaction_id =  $this->mail_data['transaction']->transaction_id;
+
+        return $this
+        ->from(env('MAIL_FROM_ADDRESS'), env('APP_NAME'))
+        ->subject(env('APP_NAME'))
+        ->markdown('emails.debit-alert')->
+        with(['mail_data' => $mail_data, 'first_name' => $first_name,
+            'last_name' => $last_name, 'acct_number' => $acct_number, 'rep_name' => $rep_name,
+            'bank_name' => $bank_name, 'amount' => $amount, 'transaction_id' => $transaction_id, 'account_number' => $account_number]);
     }
+
+
 }

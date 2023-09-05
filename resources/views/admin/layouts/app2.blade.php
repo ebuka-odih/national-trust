@@ -6,7 +6,7 @@
 <head>
     <meta charset="utf-8" />
 
-    <title>Dashboard 2 | Zircos - Responsive Bootstrap 4 Admin Dashboard</title>
+    <title>NationsStar Bank PLC  | Admin Dashboard</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta content="Responsive bootstrap 4 admin template" name="description" />
     <meta content="Coderthemes" name="author" />
@@ -116,9 +116,21 @@
                         </a>
                     </li>
                     <li>
+                        <a href="{{ route('admin.deposits') }}" class="waves-effect waves-light">
+                            <i class="mdi mdi-file-link"></i>
+                            <span> Deposits </span>
+                        </a>
+                    </li>
+                    <li>
                         <a href="{{ route('admin.withdrawals') }}" class="waves-effect waves-light">
                             <i class="mdi mdi-file-link"></i>
                             <span> Withdrawals </span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ route('admin.cards') }}" class="waves-effect waves-light">
+                            <i class="mdi mdi-card"></i>
+                            <span> Card Requests </span>
                         </a>
                     </li>
 

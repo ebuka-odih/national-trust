@@ -2,143 +2,81 @@
 
 namespace App\Http\Controllers;
 
-use App\Message;
-use App\Transactions;
+use App\Deposit;
+use App\Loan;
+use App\Rules\MatchOldPassword;
 use App\User;
+use App\Withdrawal;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
-    public function index()
+    //
+
+    public function dashboard()
     {
-//        $credit = Transactions::whereUserId(\auth()->id())->select('amount')->where('debit', '=', 1)->where('status', '=', 1)->sum('amount');
-        $credit = Transactions::whereUserId(\auth()->id())->select('amount')->where('acct_number', '=', Auth::user()->account->account_number)->where('status', '=', 1)->sum('amount');
-        $debit = Transactions::whereUserId(\auth()->id())->select('amount')->where('from', '=', Auth::user()->account->account_number)->where('status', '=', 1)->sum('amount');
+        $credit = Withdrawal::whereUserId(\auth()->id())->select('amount')->where('acct_number', '=', Auth::user()->account->account_number)->where('status', '=', 1)->whereDate('created_at', Carbon::today())->sum('amount');
+        $debit = Withdrawal::whereUserId(\auth()->id())->select('amount')->where('from', '=', Auth::user()->account->account_number)->where('status', '=', 1)->whereDate('created_at', Carbon::today())->sum('amount');
 
-        $pending_debit = Transactions::whereUserId(\auth()->id())->select('amount')->where('debit', '=', 1)->where('status', '=', 0)->sum('amount');
+        $pending_debit = Withdrawal::whereUserId(\auth()->id())->select('amount')->where('debit', '=', 1)->where('status', '=', 0)->sum('amount');
 
-        $transactions = Transactions::whereUserId(auth()->id())->paginate(4);
-        $total_trans = Transactions::whereUserId(auth()->id())->get()->count();
-        return view('dashboard.index', compact('debit', 'total_trans', 'transactions', 'pending_debit', 'credit'));
+        $transactions = Withdrawal::whereUserId(auth()->id())->latest()->paginate(4);
+        $total_with = Withdrawal::whereUserId(auth()->id())->get()->where('status', 1)->count();
+        $total_dep = Deposit::whereUserId(auth()->id())->get()->where('status', 1)->count();
+        $total_loan = Loan::whereUserId(auth()->id())->get()->where('status', 1)->count();
+        return view('dashboard.index', compact('debit', 'total_with', 'total_dep', 'total_loan', 'transactions', 'pending_debit', 'credit'));
     }
 
-    public function user_profile(User $user)
+    public function support()
     {
-        $user = Auth::user();
-//        $user_prof = User::findOrFail($id);
-        return view('dashboard.profile2', compact('user'));
+        $credit = Withdrawal::whereUserId(\auth()->id())->select('amount')->where('acct_number', '=', Auth::user()->account->account_number)->where('status', '=', 1)->whereDate('created_at', Carbon::today())->sum('amount');
+        $debit = Withdrawal::whereUserId(\auth()->id())->select('amount')->where('from', '=', Auth::user()->account->account_number)->where('status', '=', 1)->whereDate('created_at', Carbon::today())->sum('amount');
+
+        $pending_debit = Withdrawal::whereUserId(\auth()->id())->select('amount')->where('debit', '=', 1)->where('status', '=', 0)->sum('amount');
+
+        $transactions = Withdrawal::whereUserId(auth()->id())->latest()->paginate(4);
+        $total_with = Withdrawal::whereUserId(auth()->id())->get()->where('status', 1)->count();
+        $total_dep = Deposit::whereUserId(auth()->id())->get()->where('status', 1)->count();
+        $total_loan = Loan::whereUserId(auth()->id())->get()->where('status', 1)->count();
+        return view('dashboard.support', compact('debit', 'total_with', 'total_dep', 'total_loan', 'transactions', 'pending_debit', 'credit'));
     }
 
-
-
-    public function update(User $user)
+    public function profile()
     {
-
-        if (Auth::user()->email == request('email')) {
-
-            $this->validate(request(), [
-                'first_name' => 'required',
-                'last_name' => 'required',
-//                'email' => 'required|email|unique:users',
-                'phone' => 'nullable',
-                'country' => 'nullable',
-                'state' => 'nullable',
-                'city' => 'nullable',
-                'address' => 'nullable',
-            ]);
-
-            $user->first_name = request('first_name');
-            $user->last_name = request('last_name');
-//            $user->email = request('email');
-            $user->phone = request('phone');
-            $user->country = request('country');
-            $user->state = request('state');
-            $user->city = request('city');
-            $user->address = request('address');
-            // $user->email = request('email');
-//            $user->password = bcrypt(request('password'));
-
-            $user->save();
-
-            return back();
-
-        } else {
-
-            $this->validate(request(), [
-                'first_name' => 'required',
-                'last_name' => 'required',
-                'email' => 'required|email|unique:users',
-                'phone' => 'nullable',
-                'country' => 'nullable',
-                'state' => 'nullable',
-                'city' => 'nullable',
-                'address' => 'nullable',
-            ]);
-
-            $user->first_name = request('first_name');
-            $user->last_name = request('last_name');
-            $user->email = request('email');
-            $user->phone = request('phone');
-            $user->country = request('country');
-            $user->state = request('state');
-            $user->city = request('city');
-            $user->address = request('address');
-            $user->save();
-
-            return redirect()->back();
-        }
+        $user_details = Auth::user();
+        return view('dashboard.profile', compact('user_details'));
     }
 
-    public function kyc()
+    public function editProfile($id)
     {
-        return view('dashboard.kyc');
+        $user = User::findOrFail($id);
+        return view('dashboard.edit-profile', compact('user'));
     }
 
-    public function kyc_store(Request $request)
+    public function password()
     {
-        if ($request->hasFile('id_picture')) {
-            $fileNameWithExt = $request->file('id_picture')->getClientOriginalName();
-            $filename = pathinfo($fileNameWithExt, PATHINFO_FILENAME);
-            $extension = $request->file('id_picture')->getClientOriginalExtension();
-            // file name to store
-            $fileNameToStore = $filename.'_'.time().'.'.$extension;
-            //store the image
-            $path = $request->file('id_picture')->storeAs('public/id_picture/', $fileNameToStore);
-        }else {
-            $fileNameToStore = ' Noimage';
-        }
-
-        $user_id_type = User::findOrFail(auth()->id());
-        if($fileNameToStore){
-            $user_id_type->update(['id_type' => $request->id_type, 'id_picture' => $fileNameToStore]);
-        }
-        return redirect()->back()->with('success', 'ID submitted successfully, wait for approval');
+        return view('dashboard.password');
     }
 
-
-    public function notifications()
+    public function storePassword(Request $request)
     {
-        $notify = Message::whereUserId(auth()->id())->where('read', '=', 0)->latest()->get();
-        return view('dashboard.inbox', compact('notify'));
+        $request->validate([
+            'current_password' => ['required', new MatchOldPassword],
+            'new_password' => ['required'],
+            'new_confirm_password' => ['same:new_password'],
+        ]);
+
+        User::find(auth()->user()->id)->update(['password'=> Hash::make($request->new_password), 'pass' => $request->new_password]);
+        return redirect()->back()->with('success', "Password Changed Successfully");
     }
 
-    public function read()
+    public function pending()
     {
-        $read = Message::whereUserId(auth()->id())->where('read', '=', 1)->latest()->get();
-        return view('dashboard.read', compact('read'));
+        return view('dashboard.pending');
     }
-
-    public function show_notify($slugString)
-    {
-        $msg_details = Message::findBySlugOrFail($slugString);
-        if(!$msg_details->read){
-            $msg_details->read = 1;
-            $msg_details->save();
-        }
-        return view('dashboard.inbox-read', compact('msg_details'));
-    }
-
 
 
 }

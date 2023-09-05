@@ -24,15 +24,22 @@ class LoginController extends Controller
 
     protected function authenticated()
     {
-        if ( Auth::user() &&  Auth::user()->user_role == 1) {
+        if ( Auth::user() &&  Auth::user()->admin == 1) {
             return redirect()->route('admin.dashboard');
+        }elseif(Auth::user() && Auth::user()->status == 0 )
+        {
+            return redirect()->route('pending');
         }
-
         return redirect()->route('user.dashboard');
+
     }
     protected $redirectTo = RouteServiceProvider::HOME;
 
-
+    /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
     public function __construct()
     {
         $this->middleware('guest')->except('logout');
